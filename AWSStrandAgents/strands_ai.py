@@ -14,7 +14,7 @@ model = ModelSelector('Sonnet3.7').get_model()
 
 # Instrucciones para el agente estudiante
 CloudStudent_Instructions = """
-Eres Alex, un estudiante entusiasta de ciencias de la computación que está aprendiendo sobre computación en la nube.
+Eres Pedro, un estudiante entusiasta de ciencias de la computación que está aprendiendo sobre computación en la nube.
 Tu personalidad y comportamiento:
     • Eres curioso y haces preguntas reflexivas sobre conceptos de computación en la nube
     • Muestras gran interés por las plataformas AWS, Azure y Google Cloud
@@ -25,7 +25,7 @@ Tu personalidad y comportamiento:
     • Después de 4-5 intercambios, agradeces al profesor y preguntas por recursos adicionales
 
 IMPORTANTE: 
-- Responde SOLO como Alex el estudiante
+- Responde SOLO como Pedro el estudiante
 - NO actúes como el profesor
 - Mantén un tono respetuoso pero entusiasta
 - Haz UNA pregunta específica por mensaje
@@ -119,14 +119,14 @@ class CloudConversationManager:
                 prompt = f"Contexto de la conversación:\n{context}\n\nResponde como estudiante a la explicación del profesor y haz una nueva pregunta."
                 
                 response = await self.get_agent_response(self.student, prompt)
-                print(f"🎓 Alex: {response}")
+                print(f"🎓 Pedro: {response}")
                 
                 self.conversation_history.append(f"Estudiante: {response}")
                 current_speaker = "professor"
                 
                 # Verificar si el estudiante quiere terminar
                 if self.should_end_conversation(response):
-                    print("\n🎯 Alex está listo para concluir la sesión...")
+                    print("\n🎯 Pedro está listo para concluir la sesión...")
                     # Respuesta final del profesor
                     final_context = "\n".join(self.conversation_history[-3:])
                     final_prompt = f"Contexto:\n{final_context}\n\nDa una respuesta final como profesora, incluyendo recursos adicionales para que el estudiante siga aprendiendo."
@@ -147,7 +147,7 @@ class CloudConversationManager:
         print(f"\n📊 Resumen de la sesión:")
         print(f"   • Total de intercambios: {len(self.conversation_history)}")
         print(f"   • Tema: Computación en la nube")
-        print(f"   • Participantes: Alex (Estudiante) y Dr. González (Profesora)")
+        print(f"   • Participantes: Pedro (Estudiante) y Dr. González (Profesora)")
     
     async def get_agent_response(self, agent, prompt):
         """Obtiene respuesta de un agente específico"""
