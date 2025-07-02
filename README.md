@@ -27,7 +27,89 @@ Sistema de conversación que utiliza Azure AI Foundry para crear agentes que con
 - ✅ Gestión de credenciales con DefaultAzureCredential
 - ✅ Chat grupal con Semantic Kernel
 
-
+```mermaid
+graph TB
+    subgraph "🌐 Azure Cloud"
+        subgraph "🤖 Azure AI Foundry"
+            AAF[Azure AI Agent Service]
+            AOI[Azure OpenAI Service]
+            DEP[GPT-4 Deployment]
+        end
+        
+        subgraph "🔐 Azure Identity"
+            DAC[DefaultAzureCredential]
+            AAD[Azure Active Directory]
+        end
+    end
+    
+    subgraph "💻 Local Application"
+        subgraph "🎭 Agent Definitions"
+            CS_DEF[CloudStudent Definition]
+            CP_DEF[CloudProfessor Definition]
+        end
+        
+        subgraph "🎪 Agent Instances"
+            CS[🎓 CloudStudent Agent<br/>Alex]
+            CP[👨‍🏫 CloudProfessor Agent<br/>Dr. González]
+        end
+        
+        subgraph "🎛️ Orchestration Layer"
+            AGC[AgentGroupChat]
+            ATS[ApprovalTerminationStrategy]
+            SSS[SequentialSelectionStrategy]
+        end
+        
+        subgraph "⚙️ Configuration"
+            ENV[.env Variables]
+            CREDS[Azure Credentials]
+        end
+    end
+    
+    subgraph "🔄 Conversation Flow"
+        INIT[Initialize Chat]
+        CONV[Conversation Loop]
+        TERM[Termination Check]
+        END[End Session]
+    end
+    
+    %% Connections
+    ENV --> CREDS
+    CREDS --> DAC
+    DAC --> AAD
+    AAD --> AAF
+    
+    CS_DEF --> AAF
+    CP_DEF --> AAF
+    AAF --> CS
+    AAF --> CP
+    
+    CS --> AGC
+    CP --> AGC
+    AGC --> ATS
+    AGC --> SSS
+    
+    AAF --> AOI
+    AOI --> DEP
+    
+    AGC --> INIT
+    INIT --> CONV
+    CONV --> TERM
+    TERM --> CONV
+    TERM --> END
+    
+    %% Styling
+    classDef azure fill:#0078d4,stroke:#005a9e,stroke-width:2px,color:#fff
+    classDef agent fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
+    classDef orchestration fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef config fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef flow fill:#fce4ec,stroke:#c2185b,stroke-width:2px
+    
+    class AAF,AOI,DEP,DAC,AAD azure
+    class CS,CP,CS_DEF,CP_DEF agent
+    class AGC,ATS,SSS orchestration
+    class ENV,CREDS config
+    class INIT,CONV,TERM,END flow
+```
 
 ### 2. 🟠 AWS Strand Agents
 
