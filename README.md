@@ -43,3 +43,34 @@ Sistema avanzado de tutoría con múltiples agentes especializados y herramienta
 - ✅ Cleanup automático de recursos
 - ✅ Interfaz visual mejorada
 
+```mermaid
+stateDiagram-v2
+    [*] --> Inicializando
+    Inicializando --> PreguntaInicial: Sistema listo
+    
+    PreguntaInicial --> TurnoProfesor: Estudiante pregunta
+    TurnoProfesor --> TurnoEstudiante: Profesor responde
+    TurnoEstudiante --> TurnoProfesor: Estudiante pregunta
+    TurnoEstudiante --> Finalizando: Palabras de término
+    
+    TurnoProfesor --> LimiteAlcanzado: Max turnos
+    TurnoEstudiante --> LimiteAlcanzado: Max turnos
+    
+    LimiteAlcanzado --> RespuestaFinal: Profesor da cierre
+    Finalizando --> RespuestaFinal: Profesor da recursos
+    
+    RespuestaFinal --> Cleanup: Conversación completa
+    Cleanup --> [*]: Recursos liberados
+    
+    state TurnoProfesor {
+        [*] --> ProcesandoContexto
+        ProcesandoContexto --> GenerandoRespuesta
+        GenerandoRespuesta --> [*]
+    }
+    
+    state TurnoEstudiante {
+        [*] --> AnalizandoRespuesta
+        AnalizandoRespuesta --> FormulandomPregunta
+        FormulandomPregunta --> [*]
+    }
+```
