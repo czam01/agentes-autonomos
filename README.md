@@ -44,33 +44,42 @@ Sistema avanzado de tutoría con múltiples agentes especializados y herramienta
 - ✅ Interfaz visual mejorada
 
 ```mermaid
-stateDiagram-v2
-    [*] --> Inicializando
-    Inicializando --> PreguntaInicial: Sistema listo
+graph LR
+    subgraph "🏗️ Sistema de Tutoría Inteligente"
+        subgraph "🎭 Agentes"
+            A1[🎓 CloudStudent<br/>Alex]
+            A2[👨‍🏫 CloudProfessor<br/>Dr. González]
+        end
+        
+        subgraph "🎛️ Gestión"
+            CM[ConversationManager]
+            SA1[SafeAgent Wrapper]
+            SA2[SafeAgent Wrapper]
+        end
+        
+        subgraph "🧠 Modelo IA"
+            MS[ModelSelector<br/>Sonnet3.7]
+            API[API Endpoint]
+        end
+        
+        subgraph "💾 Datos"
+            CH[Conversation History]
+            CTX[Context Buffer]
+        end
+    end
     
-    PreguntaInicial --> TurnoProfesor: Estudiante pregunta
-    TurnoProfesor --> TurnoEstudiante: Profesor responde
-    TurnoEstudiante --> TurnoProfesor: Estudiante pregunta
-    TurnoEstudiante --> Finalizando: Palabras de término
+    A1 -.-> SA1
+    A2 -.-> SA2
+    SA1 --> CM
+    SA2 --> CM
+    CM --> CH
+    CM --> CTX
+    SA1 --> MS
+    SA2 --> MS
+    MS --> API
     
-    TurnoProfesor --> LimiteAlcanzado: Max turnos
-    TurnoEstudiante --> LimiteAlcanzado: Max turnos
-    
-    LimiteAlcanzado --> RespuestaFinal: Profesor da cierre
-    Finalizando --> RespuestaFinal: Profesor da recursos
-    
-    RespuestaFinal --> Cleanup: Conversación completa
-    Cleanup --> [*]: Recursos liberados
-    
-    state TurnoProfesor {
-        [*] --> ProcesandoContexto
-        ProcesandoContexto --> GenerandoRespuesta
-        GenerandoRespuesta --> [*]
-    }
-    
-    state TurnoEstudiante {
-        [*] --> AnalizandoRespuesta
-        AnalizandoRespuesta --> FormulandomPregunta
-        FormulandomPregunta --> [*]
-    }
+    style A1 fill:#e3f2fd
+    style A2 fill:#f3e5f5
+    style CM fill:#fff3e0
+    style MS fill:#e8f5e8
 ```
